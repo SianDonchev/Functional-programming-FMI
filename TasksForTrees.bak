@@ -1,0 +1,66 @@
+;task 1
+(define (make-tree root left right)
+  (cons root (list left right)))
+
+(define (root-tree tree)
+  (if (null? tree) 'empty
+  (car tree)))
+
+(define (left-tree tree)
+  (if (null? tree) tree
+      (cadr tree)))
+
+(define (right-tree tree)
+  (if (null? tree) tree
+      (caddr tree)))
+
+(define (empty-tree? tree)
+  (null? tree))
+
+(define (leaf-tree? tree)
+  (if (null? tree) #f
+  (and (null? (left-tree tree)) (null? (right-tree tree)))))
+
+(define (tree? tree)
+  (cond ((null? tree) #t)
+        (else (and (<= (length (cdr tree)) 2)
+                   (tree? (left-tree tree))
+                   (tree? (right-tree tree))))))
+      
+;task 2
+(define (in-order tree)
+  (cond ((null? tree) tree)
+        ((leaf-tree? tree) (list (car tree)))
+        (else (append (in-order (left-tree tree))
+                    (list (root-tree tree))(in-order (right-tree tree))))))
+      
+
+(define (pre-order tree)
+  (cond ((null? tree) tree)
+        ((leaf-tree? tree) (list (car tree)))
+        (else (append (list (root-tree tree))
+                      (pre-order (left-tree tree))(pre-order (right-tree tree))))))
+
+
+(define (post-order tree)
+  (cond ((null? tree) tree)
+        ((leaf-tree? tree) (list (car tree)))
+        (else (append (post-order (left-tree tree))
+                      (post-order (right-tree tree))(list (root-tree tree))))))
+
+
+
+;task 3
+(define (level n tree)
+  (cond ((null? tree) tree)
+        ((= n 0) (list (root-tree tree)))
+        (else (append (level (- n 1)(left-tree tree))
+                      (level (- n 1) (right-tree tree))))))
+      
+  
+
+
+
+      
+
+               
